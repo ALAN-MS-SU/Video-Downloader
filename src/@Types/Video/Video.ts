@@ -5,7 +5,7 @@ export interface Video {
   Audio: string;
   Format: string;
 }
-export interface Qualities {
+export interface Quality {
   Video: {
     FormatID: string;
     Quality: number | null | undefined;

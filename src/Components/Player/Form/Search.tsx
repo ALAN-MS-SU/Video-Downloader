@@ -1,18 +1,24 @@
 "use client";
 
+import { Quality } from "@/@Types/Video/Video";
 import { Button } from "@/Components/Shared/Button/Button";
 import { Input } from "@/Components/Shared/Input/Input";
+import { VideoService } from "@/Lib/API/Video/Video.service";
 import { Regex } from "@/Lib/Regex/Regex";
 import { Dispatch, RefObject, SetStateAction, useRef } from "react";
 
-export function LinkForm({
+export function SearchForm({
   URL,
+  Qualities,
   SetErr,
   SetPlayer,
+  SetLoading,
 }: {
   URL: RefObject<string>;
+  Qualities: RefObject<Quality>;
   SetErr: Dispatch<SetStateAction<string>>;
   SetPlayer: Dispatch<SetStateAction<boolean>>;
+  SetLoading: Dispatch<SetStateAction<boolean>>;
 }) {
   const InputRef = useRef<HTMLInputElement>(null);
   return (
@@ -28,7 +34,7 @@ export function LinkForm({
         Label="Search Video"
         onClick={async () => {
           URL.current = InputRef.current?.value || "";
-          console.log(URL.current);
+
           if (URL.current == "") {
             SetErr("Empaty link");
             return;
@@ -37,6 +43,11 @@ export function LinkForm({
             SetErr("Invalid Link");
             return;
           }
+          SetLoading(true);
+          Qualities.current = await VideoService.GetQuality({
+            URL: URL.current,
+          });
+          SetLoading(false);
           SetPlayer(true);
         }}
       />

@@ -13,7 +13,7 @@ export function ErrMessage({
   return (
     <div className="w-screen h-screen absolute flex justify-center items-center">
       <div className="bg-black opacity-25 absolute w-full h-full " />
-      <div className="w-150 h-100 relative z-10 bg-secondary flex-col flex justify-center items-center shadow-2xl shadow-err rounded-3xl">
+      <div className="w-150 h-100 relative z-10 bg-bg flex-col flex justify-center items-center shadow-2xl shadow-err rounded-3xl">
         <IoClose
           className="absolute text-err text-4xl right-2 top-2 cursor-pointer border-3 border-err border-solid rounded-full bg-transparent hover:bg-err hover:border-transparent hover:text-err-hover transition-colors ease-in"
           onClick={() => Close("")}
