@@ -1,12 +1,12 @@
 "use client";
-import { InputHTMLAttributes } from "react";
+import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 
 export function Input({
   ID,
   className,
   ...Props
 }: { ID: string } & Omit<
-  InputHTMLAttributes<HTMLInputElement>,
+  DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
   "id" | "name"
 >) {
   return (

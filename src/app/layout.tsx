@@ -14,7 +14,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="pt-br"
     >
-      <body>{children}</body>
+      <body className="bg-dark-secondary">{children}</body>
     </html>
   );
 }

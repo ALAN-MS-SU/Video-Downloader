@@ -2,11 +2,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #24c848;
-  --color-secondary: #f8f9fa;
+  --color-primary: #854c9d;
+  --color-dark-primary: #4e295c;
+  --color-secondary: #fdc66c;
+  --color-dark-secondary: #fdc264;
+  --color-bg: #f8f9fa;
   --color-text: #000;
-  --color-text-hover: #fff;
-  --color-shadow: #879a95;
+  --color-text-light: #fff;
+  --color-err: red;
+  --color-err-hover: white;
+  --animate-loading: loading 0.8s infinite forwards linear;
+  @keyframes loading {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }
 * {
   font-family: "Roboto", sans-serif;
