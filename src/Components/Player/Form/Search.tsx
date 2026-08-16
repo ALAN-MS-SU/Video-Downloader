@@ -15,7 +15,7 @@ export function SearchForm({
   SetLoading,
 }: {
   URL: RefObject<string>;
-  Qualities: RefObject<Quality>;
+  Qualities: RefObject<{MP4:Quality,Webm:Quality}>;
   SetErr: Dispatch<SetStateAction<string>>;
   SetPlayer: Dispatch<SetStateAction<boolean>>;
   SetLoading: Dispatch<SetStateAction<boolean>>;

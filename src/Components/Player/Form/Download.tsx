@@ -7,9 +7,10 @@ import Link from "next/link";
 import { FaYoutube } from "react-icons/fa";
 import { Button } from "@/Components/Shared/Button/Button";
 import { YTPlayer } from "@/Lib/Player/Youtube/Youtube";
-import { Dispatch, RefObject, SetStateAction } from "react";
+import { Dispatch, RefObject, SetStateAction, useState } from "react";
 import { Quality } from "@/@Types/Video/Video";
 import { VideoService } from "@/Lib/API/Video/Video.service";
+import { Formats } from "@/Constants/Formats";
 
 export function DownloadForm({
   Close,
@@ -20,10 +21,15 @@ export function DownloadForm({
 }: {
   Close: () => void;
   VideoURL: RefObject<string>;
-  Qualities: RefObject<Quality>;
+  Qualities: RefObject<{ MP4: Quality; Webm: Quality }>;
   SetLoading: Dispatch<SetStateAction<boolean>>;
   SetErr: Dispatch<SetStateAction<string>>;
 }) {
+  const [Format, SetFormat] = useState<"MP4" | "Webm">(
+    Formats[0] as "MP4" | "Webm",
+  );
+  const Video = Qualities.current[Format].Video;
+  const Audio = Qualities.current[Format].Audio;
   return (
     <div className="bg-bg shadow-2xl shadow-dark-primary flex flex-row rounded-2xl w-400 h-157.5 ">
       <div className="max-w-265 h-full w-full flex flex-col justify-between items-center">
@@ -35,23 +41,31 @@ export function DownloadForm({
         onSubmit={async (e) => {
           e.preventDefault();
           SetLoading(true);
-          const [Video, Audio, Format] = new FormData(e.currentTarget)
+          const [Format, Video, Audio] = new FormData(e.currentTarget)
             .values()
             .map((Value) => String(Value));
-          const { Download, Tittle } = await VideoService.Download({
+          const Response = await VideoService.Download({
             Video,
             Audio,
-            Format,
+            Format: Format.toLowerCase(),
             VideoURL: VideoURL.current,
           });
-          const a = document.createElement("a");
-          a.href = Download;
-          a.download = `${Tittle}`;
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          URL.revokeObjectURL(Download);
-          SetLoading(false);
+
+          if (!Response.Download) {
+            SetErr("Download err");
+            SetLoading(false);
+            return;
+          }
+          if (Response.Download) {
+            const a = document.createElement("a");
+            a.href = Response.Download;
+            a.download = `${Response.Tittle}`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(Response.Download);
+            SetLoading(false);
+          }
         }}
         className="bg-bg border-l-0 border-5 rounded-r-2xl border-dark-primary max-w-135 w-full h-full relative"
       >
@@ -64,24 +78,36 @@ export function DownloadForm({
         </span>
         <div className=" flex flex-row justify-around items-start w-full h-1/3">
           <Select
-            ID="Video"
+            ID="Format"
             className="w-30"
-            Options={Qualities.current.Video.map(
-              (Quality) => `${Quality.Quality}p + ${Quality.FPS}FPS`,
-            )}
-            Values={Qualities.current.Video.map((Quality) => Quality.FormatID)}
+            onChange={(e) => {
+              SetFormat(e.currentTarget.value as "MP4" | "Webm");
+            }}
+            Options={Formats}
           />
-          <Select
-            ID="Audio"
-            className="w-30"
-            Options={Qualities.current.Audio.map(
-              (Quality) => `${Quality.Bitrate}kbps`,
-            )}
-            Values={Qualities.current.Audio.map((Quality) => Quality.FormatID)}
-          />
-          <Select ID="Format" className="w-30" Options={["webm", "mp4"]} />
+          {Video.length > 0 && Audio.length > 0 ? (
+            <>
+              <Select
+                ID="Video"
+                className="w-30"
+                Options={Video.map(
+                  (Quality) => `${Quality.Quality}p + ${Quality.FPS}FPS`,
+                )}
+                Values={Video.map((Quality) => Quality.FormatID)}
+              />
+              <Select
+                ID="Audio"
+                className="w-30"
+                Options={Audio.map((Quality) => `${Quality.Bitrate}kbps`)}
+                Values={Audio.map((Quality) => Quality.FormatID)}
+              />
+            </>
+          ) : (
+            <span className="text-xl text-text w-60 h-18 font-semibold text-center flex justify-center items-center">
+              This format is not available
+            </span>
+          )}
         </div>
-
         <Link
           href={"https://youtube.com"}
           className="text-9xl absolute text-red-600 text-center left-[calc(50%-60.7px)] top-1/2 hover:text-primary transition-colors ease-in cursor-pointer"
@@ -90,7 +116,16 @@ export function DownloadForm({
         </Link>
 
         <div className="flex justify-center items-center w-full h-1/3">
-          <Button className=" w-4/5 h-15" type="submit" Label="Download" />
+          <Button
+            disabled={Video.length < 1 || Audio.length < 1}
+            className=" w-4/5 h-15"
+            type="submit"
+            Label={
+              Video.length > 0 && Audio.length > 0
+                ? "Download"
+                : "Not available"
+            }
+          />
         </div>
       </form>
     </div>
