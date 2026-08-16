@@ -5,7 +5,7 @@ export function YTVideo({
   URL,
 }: Pick<Video, "URL"> & { Close: () => void }) {
   return (
-    <div className="relative  w-full h-full">
+    <div className="relative w-full h-full">
       <iframe
         className="w-full h-full"
         src={URL}

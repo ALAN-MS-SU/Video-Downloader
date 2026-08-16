@@ -12,6 +12,12 @@
   --color-err: red;
   --color-err-hover: white;
   --animate-loading: loading 0.8s infinite forwards linear;
+  --breakpoint-3xl: 1650px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-md: 768px;
+  --breakpoint-sm: 640px;
   @keyframes loading {
     0% {
       transform: rotate(0deg);

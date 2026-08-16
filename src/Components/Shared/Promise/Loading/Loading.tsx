@@ -1,17 +1,11 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
-
-export function Loading({
-  Close,
-}: {
-  Close: Dispatch<SetStateAction<boolean>>;
-}) {
+export function Loading() {
   return (
-    <div className="absolute w-screen h-screen z-10 flex flex-col justify-center items-center ">
-      <div className="relative flex justify-center items-center rounded-full w-80 h-80 shadow-2xl shadow-secondary">
-        <div className="absolute rounded-full border-l-8 border-secondary w-full h-full animate-loading " />
-        <span className="font-bold text-4xl text-text-light bg-secondary px-6 py-4 rounded-full">
+    <div className="fixed w-screen h-screen z-10 flex flex-col justify-center items-center ">
+      <div className="relative flex justify-center items-center rounded-full sm:w-80 w-60 sm:h-80 h-60 shadow-2xl z-20 shadow-dark-primary">
+        <div className="absolute rounded-full border-l-8 border-primary w-full h-full animate-loading " />
+        <span className="font-bold sm:text-4xl text-3xl text-text-light bg-primary sm:px-6 sm:py-4 px-4 py-2 rounded-full">
           Loading
         </span>
       </div>

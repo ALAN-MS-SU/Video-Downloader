@@ -1,13 +1,9 @@
 "use client";
 import { useRef, useState } from "react";
-import { Loading } from "../Shared/Promise/Loading/Loading";
-import { ErrMessage } from "../Shared/Promise/Err/Err";
 import { SearchForm } from "./Form/Search";
 import { Quality } from "@/@Types/Video/Video";
 import { DownloadForm } from "./Form/Download";
 export function Player() {
-  const [IsLoading, SetLoading] = useState<boolean>(false);
-  const [Err, SetErr] = useState<string>("");
   const URL = useRef<string>("");
   const [Player, SetPlayer] = useState<boolean>(false);
   const Qualities = useRef<{ MP4: Quality; Webm: Quality }>({
@@ -22,23 +18,13 @@ export function Player() {
   }
   return (
     <>
-      {IsLoading && <Loading Close={SetLoading} />}
-      {Err != "" && <ErrMessage Message={Err} Close={SetErr} />}
-      <div className="w-screen h-screen flex flex-col justify-center items-center overflow-hidden px-5">
+      <div className="min-h-screen min-w-screen w-full h-full flex flex-col justify-center items-center overflow-x-hidden sm:py-10 py-5 sm:px-5 px-2">
         {Player && URL.current != "" ? (
-          <DownloadForm
-            VideoURL={URL}
-            Close={Close}
-            Qualities={Qualities}
-            SetLoading={SetLoading}
-            SetErr={SetErr}
-          />
+          <DownloadForm VideoURL={URL} Close={Close} Qualities={Qualities} />
         ) : (
           <SearchForm
             URL={URL}
             Qualities={Qualities}
-            SetLoading={SetLoading}
-            SetErr={SetErr}
             SetPlayer={SetPlayer}
           />
         )}

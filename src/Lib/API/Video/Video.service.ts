@@ -17,7 +17,7 @@ export class VideoService {
     VideoURL,
   }: Pick<Video, "Video" | "Audio" | "Format"> & {
     VideoURL: string;
-  }): Promise<{ Download?: string; Tittle?: string }> {
+  }): Promise<{ Download: string; Tittle: string }> {
     try {
       const Response = await API.post(
         "/Video",
@@ -38,7 +38,7 @@ export class VideoService {
       const Download = URL.createObjectURL(File);
       return { Download, Tittle };
     } catch (err) {
-      return {};
+      throw err;
     }
   }
 }
