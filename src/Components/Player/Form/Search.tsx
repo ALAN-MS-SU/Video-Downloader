@@ -15,20 +15,20 @@ export function SearchForm({
   SetLoading,
 }: {
   URL: RefObject<string>;
-  Qualities: RefObject<{MP4:Quality,Webm:Quality}>;
+  Qualities: RefObject<{ MP4: Quality; Webm: Quality }>;
   SetErr: Dispatch<SetStateAction<string>>;
   SetPlayer: Dispatch<SetStateAction<boolean>>;
   SetLoading: Dispatch<SetStateAction<boolean>>;
 }) {
   const InputRef = useRef<HTMLInputElement>(null);
   return (
-    <div className="bg-bg shadow-2xl shadow-dark-primary rounded-2xl w-150 h-75 flex flex-col justify-around items-center ">
+    <div className="bg-bg shadow-2xl shadow-dark-primary rounded-2xl max-w-150 w-full h-75 flex flex-col justify-around items-center">
       <Input
         ref={InputRef}
         defaultValue={URL.current}
         ID="URL"
         placeholder="Enter your URL"
-        className="text-center text-xl w-full h-full px-5"
+        className="text-center md:text-xl sm:text-lg text-sm w-full sm:h-full h-4/5  sm:px-5 px-1"
       />
       <Button
         Label="Search Video"

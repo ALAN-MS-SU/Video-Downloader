@@ -15,7 +15,7 @@ export function Button({
 >) {
   return (
     <button
-      className={`bg-transparent cursor-pointer md:text-xl text-2xl text-text hover:bg-primary hover:text-text-light transition-all ease-in px-3 py-2 border-2 border-solid border-primary rounded-xl ${className ? className : ""}`}
+      className={`bg-transparent cursor-pointer text-xl md:text-2xl text-text hover:bg-primary hover:text-text-light transition-all ease-in px-3 py-2 border-2 border-solid border-primary rounded-xl ${className ? className : ""}`}
       type={type ? type : "button"}
       {...Props}
     >

@@ -24,7 +24,7 @@ export function Player() {
     <>
       {IsLoading && <Loading Close={SetLoading} />}
       {Err != "" && <ErrMessage Message={Err} Close={SetErr} />}
-      <div className="w-screen h-screen flex flex-col justify-center items-center overflow-hidden">
+      <div className="w-screen h-screen flex flex-col justify-center items-center overflow-hidden px-5">
         {Player && URL.current != "" ? (
           <DownloadForm
             VideoURL={URL}
